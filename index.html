@@ -5,24 +5,29 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ShooMee Stuff | Авторские топперы и миниатюры</title>
     <meta name="description" content="ShooMee Stuff — создание уникальных 3D-топперов для кофе, брелоков, магнитов и кастомных фигурок. Ручная работа, внимание к деталям, идеальный подарок.">
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&family=Playfair+Display:ital,wght@0,600;1,600&display=swap" rel="stylesheet">
+    
+    <!-- Подключение шрифта DynaPuff и Playfair Display для заголовков -->
+    <link href="https://fonts.googleapis.com/css2?family=DynaPuff:wght@400;700&family=Playfair+Display:ital,wght@0,600;1,600&display=swap" rel="stylesheet">
     
     <style>
-        /* Базовые настройки */
+        /* Базовые настройки (Кофейная гуща) */
         :root {
-    --bg-dark: #1a1311; /* Темный шоколад вместо черного */
-    --bg-card: #241a17; /* Карточки чуть светлее фона */
-    --accent: #d65c4a;  /* Сделал акцент чуть ярче, чтобы горел на фоне */
-    --text-main: #fdfaf8; /* Текст не чисто белый, а с легким кремовым оттенком (глазам приятнее) */
-    --text-muted: #a89f9c;
-    --radius: 16px;
-}
+            --bg-dark: #1a1311; 
+            --bg-card: #241a17; 
+            --accent: #d65c4a;  
+            --text-main: #fdfaf8; 
+            --text-muted: #a89f9c;
+            
+            /* Радиус скругления карточек */
+            --radius: 20px; 
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
-            font-family: 'Montserrat', sans-serif;
+            /* Основной шрифт - DynaPuff. 400 - чтобы текст не был слишком тяжелым */
+            font-family: 'DynaPuff', cursive;
+            font-weight: 400;
             background-color: var(--bg-dark);
             color: var(--text-main);
             line-height: 1.7;
@@ -30,21 +35,41 @@
             scroll-behavior: smooth;
         }
 
-        /* Декоративный фон */
+        /* Декоративный фон (легкое свечение) */
         body::before {
             content: '';
             position: fixed;
             top: 0; left: 0; width: 100vw; height: 100vh;
             background-image: 
-                radial-gradient(circle at 15% 50%, rgba(201, 72, 57, 0.08), transparent 25%),
-                radial-gradient(circle at 85% 30%, rgba(201, 72, 57, 0.05), transparent 25%);
+                radial-gradient(circle at 15% 50%, rgba(214, 92, 74, 0.08), transparent 25%),
+                radial-gradient(circle at 85% 30%, rgba(214, 92, 74, 0.05), transparent 25%);
             z-index: -1;
         }
 
-        /* Общие стили для секций */
-        section { padding: 80px 20px; max-width: 1200px; margin: 0 auto; }
-        h2 { font-family: 'Playfair Display', serif; font-size: 2.5rem; margin-bottom: 20px; text-align: center; color: var(--text-main); }
-        .section-subtitle { text-align: center; color: var(--text-muted); margin-bottom: 50px; max-width: 600px; margin-left: auto; margin-right: auto; }
+        /* Общие стили для секций (РАСТЯНУТЫЙ САЙТ) */
+        section { 
+            padding: 80px 5%; /* Отступы по бокам в процентах */
+            max-width: 1600px; /* Ширина до 1600px */
+            margin: 0 auto; 
+        }
+        
+        h2 { 
+            font-family: 'Playfair Display', serif; 
+            font-size: 2.5rem; 
+            font-weight: 700;
+            margin-bottom: 20px; 
+            text-align: center; 
+            color: var(--text-main); 
+        }
+        
+        .section-subtitle { 
+            text-align: center; 
+            color: var(--text-muted); 
+            margin-bottom: 50px; 
+            max-width: 600px; 
+            margin-left: auto; 
+            margin-right: auto; 
+        }
 
         /* Hero секция (Шапка) */
         .hero {
@@ -58,17 +83,18 @@
             animation: fadeIn 1.5s ease;
         }
 
-        /* Логотип */
+        /* Логотип (увеличен) */
         .logo {
-            width: 500px;
-            max-width: 90%;
-            margin-bottom: 30px;
+            width: 450px; 
+            max-width: 95%; 
+            margin-bottom: 40px; 
             transition: transform 0.4s ease;
         }
 
         .logo:hover { transform: scale(1.03); }
 
         .hero h1 {
+            font-family: 'Playfair Display', serif;
             font-size: 3rem;
             font-weight: 800;
             letter-spacing: 2px;
@@ -80,6 +106,8 @@
         .hero .highlight { color: var(--accent); }
 
         .hero p {
+            font-family: 'DynaPuff', cursive;
+            font-weight: 400;
             color: var(--text-muted);
             font-size: 1.2rem;
             max-width: 700px;
@@ -93,25 +121,26 @@
             padding: 15px 40px;
             border-radius: 50px;
             text-decoration: none;
-            font-weight: 600;
+            font-family: 'DynaPuff', cursive;
+            font-weight: 700; /* Жирный DynaPuff для кнопки */
             font-size: 1.1rem;
             transition: background 0.3s, transform 0.3s;
             border: none;
             cursor: pointer;
         }
 
-        .btn:hover { background: var(--accent-hover); transform: translateY(-3px); }
+        .btn:hover { background: #e36f5d; transform: translateY(-3px); }
 
-        /* Сетка галереи */
+        /* Сетка галереи (УВЕЛИЧЕНЫ КАРТОЧКИ) */
         .gallery {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); /* Увеличили с 300 до 350 */
             gap: 25px;
         }
 
         .card {
             background: var(--bg-card);
-            border-radius: var(--radius);
+            border-radius: var(--radius); 
             overflow: hidden;
             position: relative;
             transition: transform 0.4s ease, box-shadow 0.4s ease;
@@ -167,8 +196,18 @@
         }
 
         .card:hover .card-overlay { opacity: 1; }
-        .card-overlay h3 { font-size: 1.3rem; margin-bottom: 5px; font-family: 'Montserrat', sans-serif;}
-        .card-overlay p { font-size: 0.9rem; color: var(--accent); font-weight: 600; }
+        .card-overlay h3 { 
+            font-family: 'DynaPuff', cursive; 
+            font-weight: 700;
+            font-size: 1.3rem; 
+            margin-bottom: 5px; 
+        }
+        .card-overlay p { 
+            font-family: 'DynaPuff', cursive; 
+            font-weight: 400;
+            font-size: 0.9rem; 
+            color: var(--accent); 
+        }
 
         /* Блок "О нас" */
         .about-section {
@@ -185,7 +224,7 @@
         .about-text { flex: 1; min-width: 300px; }
         .about-text h2 { text-align: left; margin-bottom: 15px; }
         .about-text p { color: var(--text-muted); margin-bottom: 15px; font-size: 1.05rem; }
-        .about-text strong { color: var(--text-main); }
+        .about-text strong { color: var(--text-main); font-weight: 700; }
 
         /* Блок Услуг */
         .services-grid {
@@ -205,7 +244,7 @@
 
         .service-card:hover { border-color: var(--accent); }
         .service-icon { font-size: 2.5rem; margin-bottom: 15px; display: block; }
-        .service-card h3 { margin-bottom: 10px; font-size: 1.2rem; }
+        .service-card h3 { font-family: 'DynaPuff', cursive; font-weight: 700; margin-bottom: 10px; font-size: 1.2rem; }
         .service-card p { color: var(--text-muted); font-size: 0.9rem; }
 
         /* FAQ (Вопросы) */
@@ -216,7 +255,7 @@
             padding: 20px 25px;
             border: 1px solid #2a2a2a;
         }
-        .faq-item h4 { color: var(--accent); margin-bottom: 8px; font-size: 1.1rem; }
+        .faq-item h4 { font-family: 'DynaPuff', cursive; font-weight: 700; color: var(--accent); margin-bottom: 8px; font-size: 1.1rem; }
         .faq-item p { color: var(--text-muted); font-size: 0.95rem; }
 
         /* Подвал */
@@ -224,10 +263,15 @@
             text-align: center;
             padding: 60px 20px 30px;
             border-top: 1px solid #2a2a2a;
-            background: #0a0a0a;
+            background: #100b0a;
         }
 
-        footer .footer-logo { font-family: 'Playfair Display', serif; font-size: 2rem; font-weight: 600; margin-bottom: 15px; }
+        footer .footer-logo { 
+            font-family: 'Playfair Display', serif; 
+            font-size: 2rem; 
+            font-weight: 600; 
+            margin-bottom: 15px; 
+        }
         footer p { color: var(--text-muted); margin-bottom: 20px; }
         
         .social-links { display: flex; justify-content: center; gap: 15px; flex-wrap: wrap; }
@@ -241,7 +285,8 @@
             background: var(--bg-card);
             padding: 12px 25px;
             border-radius: 50px;
-            font-weight: 600;
+            font-family: 'DynaPuff', cursive;
+            font-weight: 700;
             font-size: 0.95rem;
             border: 1px solid #333;
             transition: all 0.3s;
@@ -249,11 +294,7 @@
         
         .social-links a:hover { background: var(--accent); border-color: var(--accent); }
         
-        .social-links img {
-            width: 24px;
-            height: 24px;
-            object-fit: contain;
-        }
+        .social-links img { width: 24px; height: 24px; object-fit: contain; }
 
         /* Анимации */
         @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
@@ -263,7 +304,7 @@
             .hero h1 { font-size: 2.2rem; }
             h2 { font-size: 2rem; }
             .about-section { padding: 30px 20px; }
-            section { padding: 60px 15px; }
+            section { padding: 60px 5%; }
             .gallery { grid-template-columns: 1fr; }
             .social-links { flex-direction: column; align-items: center; }
             .social-links a { width: 100%; justify-content: center; max-width: 300px; }
