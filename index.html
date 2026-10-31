@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ShooMee Stuff | Авторские топперы и миниатюры</title>
+    <meta name="description" content="ShooMee Stuff — создание уникальных 3D-топперов для кофе, брелоков, магнитов и кастомных фигурок. Ручная работа, внимание к деталям, идеальный подарок.">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&family=Playfair+Display:ital,wght@0,600;1,600&display=swap" rel="stylesheet">
+    
+    <style>
+        /* Базовые настройки */
+        :root {
+            --bg-dark: #121212;
+            --bg-card: #1c1c1c;
+            --accent: #c94839;
+            --accent-hover: #e35d4e;
+            --text-main: #f5f5f5;
+            --text-muted: #9e9e9e;
+            --radius: 16px;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            line-height: 1.7;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+
+        /* Декоративный фон */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            background-image: 
+                radial-gradient(circle at 15% 50%, rgba(201, 72, 57, 0.08), transparent 25%),
+                radial-gradient(circle at 85% 30%, rgba(201, 72, 57, 0.05), transparent 25%);
+            z-index: -1;
+        }
+
+        /* Общие стили для секций */
+        section { padding: 80px 20px; max-width: 1200px; margin: 0 auto; }
+        h2 { font-family: 'Playfair Display', serif; font-size: 2.5rem; margin-bottom: 20px; text-align: center; color: var(--text-main); }
+        .section-subtitle { text-align: center; color: var(--text-muted); margin-bottom: 50px; max-width: 600px; margin-left: auto; margin-right: auto; }
+
+        /* Hero секция (Шапка) */
+        .hero {
+            min-height: 90vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding-top: 40px;
+            animation: fadeIn 1.5s ease;
+        }
+
+        /* Логотип */
+        .logo {
+            width: 260px;
+            max-width: 80%;
+            margin-bottom: 30px;
+            transition: transform 0.4s ease;
+        }
+
+        .logo:hover { transform: scale(1.03); }
+
+        .hero h1 {
+            font-size: 3rem;
+            font-weight: 800;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 15px;
+            line-height: 1.2;
+        }
+
+        .hero .highlight { color: var(--accent); }
+
+        .hero p {
+            color: var(--text-muted);
+            font-size: 1.2rem;
+            max-width: 700px;
+            margin-bottom: 40px;
+        }
+
+        .btn {
+            display: inline-block;
+            background: var(--accent);
+            color: #fff;
+            padding: 15px 40px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: background 0.3s, transform 0.3s;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn:hover { background: var(--accent-hover); transform: translateY(-3px); }
+
+        /* Сетка галереи */
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 25px;
+        }
+
+        .card {
+            background: var(--bg-card);
+            border-radius: var(--radius);
+            overflow: hidden;
+            position: relative;
+            transition: transform 0.4s ease, box-shadow 0.4s ease;
+            opacity: 0;
+            transform: translateY(40px);
+        }
+
+        .card.visible { opacity: 1; transform: translateY(0); }
+        .card:hover { transform: translateY(-10px); box-shadow: 0 20px 40px rgba(0,0,0,0.6); }
+
+        /* Стили для обычных картинок и видео */
+        .card > img, .card > video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            aspect-ratio: 4/5;
+            display: block;
+            transition: transform 0.5s ease;
+        }
+
+        .card:hover > img { transform: scale(1.08); }
+
+        /* Стили для слайдера (много фото) */
+        .slider-container {
+            display: flex;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory; 
+            scrollbar-width: none; 
+            aspect-ratio: 4/5;
+        }
+        .slider-container::-webkit-scrollbar { display: none; }
+        
+        .slider-container img {
+            flex: 0 0 100%;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            scroll-snap-align: start;
+            transition: transform 0.5s ease;
+        }
+        
+        .card:hover .slider-container img { transform: scale(1.08); }
+
+        /* Оверлей с текстом */
+        .card-overlay {
+            position: absolute;
+            bottom: 0; left: 0; right: 0;
+            padding: 25px 20px;
+            background: linear-gradient(to top, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.5) 60%, transparent 100%);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            pointer-events: none; 
+        }
+
+        .card:hover .card-overlay { opacity: 1; }
+        .card-overlay h3 { font-size: 1.3rem; margin-bottom: 5px; font-family: 'Montserrat', sans-serif;}
+        .card-overlay p { font-size: 0.9rem; color: var(--accent); font-weight: 600; }
+
+        /* Блок "О нас" */
+        .about-section {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 40px;
+            align-items: center;
+            background: var(--bg-card);
+            padding: 50px;
+            border-radius: var(--radius);
+            border: 1px solid #2a2a2a;
+        }
+
+        .about-text { flex: 1; min-width: 300px; }
+        .about-text h2 { text-align: left; margin-bottom: 15px; }
+        .about-text p { color: var(--text-muted); margin-bottom: 15px; font-size: 1.05rem; }
+        .about-text strong { color: var(--text-main); }
+
+        /* Блок Услуг */
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .service-card {
+            background: var(--bg-card);
+            padding: 30px;
+            border-radius: var(--radius);
+            border: 1px solid #2a2a2a;
+            text-align: center;
+            transition: border-color 0.3s;
+        }
+
+        .service-card:hover { border-color: var(--accent); }
+        .service-icon { font-size: 2.5rem; margin-bottom: 15px; display: block; }
+        .service-card h3 { margin-bottom: 10px; font-size: 1.2rem; }
+        .service-card p { color: var(--text-muted); font-size: 0.9rem; }
+
+        /* FAQ (Вопросы) */
+        .faq-item {
+            background: var(--bg-card);
+            margin-bottom: 15px;
+            border-radius: var(--radius);
+            padding: 20px 25px;
+            border: 1px solid #2a2a2a;
+        }
+        .faq-item h4 { color: var(--accent); margin-bottom: 8px; font-size: 1.1rem; }
+        .faq-item p { color: var(--text-muted); font-size: 0.95rem; }
+
+        /* Подвал */
+        footer {
+            text-align: center;
+            padding: 60px 20px 30px;
+            border-top: 1px solid #2a2a2a;
+            background: #0a0a0a;
+        }
+
+        footer .footer-logo { font-family: 'Playfair Display', serif; font-size: 2rem; font-weight: 600; margin-bottom: 15px; }
+        footer p { color: var(--text-muted); margin-bottom: 20px; }
+        
+        .social-links { display: flex; justify-content: center; gap: 15px; flex-wrap: wrap; }
+        
+        .social-links a {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--text-main);
+            text-decoration: none;
+            background: var(--bg-card);
+            padding: 12px 25px;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            border: 1px solid #333;
+            transition: all 0.3s;
+        }
+        
+        .social-links a:hover { background: var(--accent); border-color: var(--accent); }
+        
+        .social-links img {
+            width: 24px;
+            height: 24px;
+            object-fit: contain;
+        }
+
+        /* Анимации */
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* Адаптивность */
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2.2rem; }
+            h2 { font-size: 2rem; }
+            .about-section { padding: 30px 20px; }
+            section { padding: 60px 15px; }
+            .gallery { grid-template-columns: 1fr; }
+            .social-links { flex-direction: column; align-items: center; }
+            .social-links a { width: 100%; justify-content: center; max-width: 300px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Главный экран (Hero) -->
+    <header class="hero">
+        <img src="logo.png" alt="ShooMee Logo" class="logo">
+        <h1>Маленькие детали <br><span class="highlight">большого счастья</span></h1>
+        <p>Авторские 3D-топперы для напитков, эксклюзивные брелоки и кастомные миниатюры. Мы превращаем ваши идеи в осязаемые шедевры.</p>
+        <a href="#portfolio" class="btn">Смотреть работы</a>
+    </header>
+
+    <!-- Секция: Портфолио -->
+    <section id="portfolio">
+        <h2>Наше Портфолио</h2>
+        <p class="section-subtitle">Каждая фигурка создается с нуля: от 3D-модели до финальной покраски. Ниже — лишь малая часть того, что мы можем.</p>
+        
+        <div class="gallery">
+            
+            <!-- 1. Утята (7 фото) -->
+            <div class="card">
+                <div class="slider-container">
+                    <img src="ducks-1.jpg" alt="Утята 1">
+                    <img src="ducks-2.jpg" alt="Утята 2">
+                    <img src="ducks-3.jpg" alt="Утята 3">
+                    <img src="ducks-4.jpg" alt="Утята 4">
+                    <img src="ducks-5.jpg" alt="Утята 5">
+                    <img src="ducks-6.jpg" alt="Утята 6">
+                    <img src="ducks-7.jpg" alt="Утята 7">
+                </div>
+                <div class="card-overlay">
+                    <h3>Утята и Пингвины</h3>
+                    <p>Листайте, чтобы увидеть 7 фото</p>
+                </div>
+            </div>
+
+            <!-- 2. Кошки в суши (3 фото) -->
+            <div class="card">
+                <div class="slider-container">
+                    <img src="sushi-cats-1.jpg" alt="Котики суши 1">
+                    <img src="sushi-cats-2.jpg" alt="Котики суши 2">
+                    <img src="sushi-cats-3.jpg" alt="Котики суши 3">
+                </div>
+                <div class="card-overlay">
+                    <h3>Котики в суши</h3>
+                    <p>Листайте, чтобы увидеть 3 фото</p>
+                </div>
+            </div>
+
+            <!-- 3. Панды (1 фото) -->
+            <div class="card">
+                <img src="pandas.jpg" alt="Панды">
+                <div class="card-overlay">
+                    <h3>Панды</h3>
+                    <p>Мини-фигурки</p>
+                </div>
+            </div>
+
+            <!-- 4. Кошки (1 фото) -->
+            <div class="card">
+                <img src="cats-simple.jpg" alt="Кошки">
+                <div class="card-overlay">
+                    <h3>Котики</h3>
+                    <p>Классическая серия</p>
+                </div>
+            </div>
+
+            <!-- 5. Жирафы (1 фото) -->
+            <div class="card">
+                <img src="giraffes.jpg" alt="Жирафы">
+                <div class="card-overlay">
+                    <h3>Жирафы</h3>
+                    <p>Магниты и брелоки</p>
+                </div>
+            </div>
+
+            <!-- 6. Барашки (1 фото) -->
+            <div class="card">
+                <img src="sheep.jpg" alt="Барашки">
+                <div class="card-overlay">
+                    <h3>Барашки</h3>
+                    <p>Нежные фигурки</p>
+                </div>
+            </div>
+
+            <!-- 7. Колпаки (1 фото) -->
+            <div class="card">
+                <img src="hats.jpg" alt="Колпаки">
+                <div class="card-overlay">
+                    <h3>Праздничные колпаки</h3>
+                    <p>Декор для напитков</p>
+                </div>
+            </div>
+
+            <!-- 8. Видео процесса -->
+            <div class="card">
+                <video muted loop playsinline autoplay poster="video-poster.jpg">
+                    <source src="process.mp4" type="video/mp4">
+                </video>
+                <div class="card-overlay">
+                    <h3>Магия 3D-печати</h3>
+                    <p>Процесс создания</p>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- 👇 МЕСТО ДЛЯ АНИМАЦИИ КОФЕ (КОД ОТ КЛОДА ВСТАВИТЬ СЮДА) 👇 -->
+    <section style="padding: 0;">
+        <!-- Сюда Клод пришлет код <div class="coffee-widget">...</div> -->
+    </section>
+    <!-- 👆 КОНЕЦ МЕСТА ДЛЯ АНИМАЦИИ 👆 -->
+
+    <!-- Секция: О нас -->
+    <section>
+        <div class="about-section">
+            <div class="about-text">
+                <h2>Кто мы такие?</h2>
+                <p><strong>ShooMee Stuff</strong> — это небольшая мастерская, где технологии встречаются с творчеством. Мы используем современные 3D-принтеры, но каждое изделие проходит ручную обработку, шлифовку и покраску.</p>
+                <p>Наш главный фокус — <strong>топперы для кофе</strong>. Мы знаем, как важно, чтобы фигурка идеально сидела на крышке, не пачкалась и радовала глаз. Но мы не ограничиваемся этим: делаем брелоки, магниты и даже кастомные фигурки по вашим эскизам.</p>
+                <p>Мы верим, что даже маленькая деталь способна сделать обычный день особенным.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Секция: Что мы делаем -->
+    <section>
+        <h2>Наши услуги</h2>
+        <p class="section-subtitle">От готовых коллекций до индивидуальных заказов</p>
+        
+        <div class="services-grid">
+            <div class="service-card">
+                <span class="service-icon">☕</span>
+                <h3>Топперы для кофе</h3>
+                <p>Идеально сидят на крышках стаканов. Готовые дизайны или под заказ.</p>
+            </div>
+            <div class="service-card">
+                <span class="service-icon">🔑</span>
+                <h3>Брелоки</h3>
+                <p>Стильные и прочные аксессуары, которые всегда будут с вами.</p>
+            </div>
+            <div class="service-card">
+                <span class="service-icon">🧲</span>
+                <h3>Магниты</h3>
+                <p>Миниатюрные фигурки с неодимовыми магнитами. Отличный сувенир.</p>
+            </div>
+            <div class="service-card">
+                <span class="service-icon">🎨</span>
+                <h3>Кастомные заказы</h3>
+                <p>Сделаем фигурку по вашему эскизу, фото или описанию.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Секция: Частые вопросы -->
+    <section>
+        <h2>Частые вопросы</h2>
+        <div class="faq-item">
+            <h4>Сколько времени занимает изготовление заказа?</h4>
+            <p>Сроки всегда обсуждаются индивидуально. Готовые модели обычно отправляем в течение 1-2 дней. Если речь идет о кастомном заказе (с разработкой 3D-модели), мы всегда заранее согласовываем удобные для вас даты и держим в курсе на каждом этапе. Мы ценим ваше время и всегда стараемся найти оптимальное решение.</p>
+        </div>
+        <div class="faq-item">
+            <h4>Безопасно ли использовать топперы с едой и напитками?</h4>
+            <p>Мы используем безопасные материалы (PLA/PETG) и пищевые красители. Однако мы не рекомендуем опускать фигурки прямо в напиток — они предназначены для декора крышки.</p>
+        </div>
+        <div class="faq-item">
+            <h4>Вы отправляете заказы в другие города?</h4>
+            <p>Да, мы работаем с доставкой по всей стране. Упаковываем каждую фигурку в защитную пленку и коробку.</p>
+        </div>
+    </section>
+
+    <!-- Подвал -->
+    <footer>
+        <div class="footer-logo">ShooMee Stuff</div>
+        <p>Есть идея? Давайте воплотим её вместе!</p>
+        
+        <div class="social-links">
+            <a href="https://t.me/Shoomeestuff" target="_blank">
+                <img src="tg-icon.png" alt="Telegram"> @Shoomeestuff
+            </a>
+            <a href="https://instagram.com/shoomeestuff" target="_blank">
+                <img src="inst-icon.png" alt="Instagram"> @shoomeestuff
+            </a>
+            <a href="mailto:shoomeestuff@gmail.com">
+                <img src="mail-icon.png" alt="Email"> shoomeestuff@gmail.com
+            </a>
+        </div>
+        
+        <p style="margin-top: 40px; font-size: 0.8rem; opacity: 0.5;">© 2026 ShooMee Stuff. Все права защищены.</p>
+    </footer>
+
+    <!-- Скрипт анимации карточек -->
+    <script>
+        const cards = document.querySelectorAll('.card');
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry, index) => {
+                if (entry.isIntersecting) {
+                    setTimeout(() => {
+                        entry.target.classList.add('visible');
+                    }, index * 100);
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.1 });
+
+        cards.forEach(card => observer.observe(card));
+    </script>
+</body>
+</html>
